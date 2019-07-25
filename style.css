@@ -1,0 +1,158 @@
+body {
+    background: rgb(206, 209, 158);
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 30vw;
+    grid-template-rows: repeat(6, 10vh);
+    grid-template-areas: 
+        'display'
+        'buttons'
+        'buttons'
+        'buttons'
+        'buttons'
+        'buttons';
+    margin: auto;
+    margin-top: 15vh;
+    width: 30vw;
+    background-color: rgb(86, 86, 245);
+    border: 3px solid black;
+    border-radius: 5px;
+}
+
+.display-main {
+    grid-area: display;
+    background: rgb(178, 178, 228);
+    text-align: right;    
+    margin: 5px;
+    border: 1px solid black;
+}
+
+.display-bottom {
+    font-size: 2.5em;
+}
+
+.buttons {
+    grid-area: buttons;
+    border: 3 solid black;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    grid-template-areas:
+        'clear . . delete'
+        'seven eight nine divide'
+        'four five six multiply'
+        'one two three subtract'
+        'decimal zero equals add';
+    padding: 10px;
+    
+}
+
+input[type="button"] {
+    border: 3px solid black;
+    border-radius: 10px;
+    width: 7vw;
+    height: 7vh;
+    text-align: center;
+    vertical-align: center;
+    line-height: 4vh;
+    font-size: 30px;
+    font-family: monospace, sans-serif;
+    font-weight: bold;
+    margin: auto;
+}
+
+input[type="button"]:hover {
+    background-color: white;
+}
+
+
+.clear {
+    grid-area: clear;
+}
+
+.delete {
+    grid-area: delete;
+    font-size: 35px !important; 
+}
+
+.one {
+    grid-area: one;
+}
+
+.two {
+    grid-area: two;
+}
+
+.three {
+    grid-area: three;
+}
+
+.four {
+    grid-area: four;
+}
+
+.five {
+    grid-area: five;
+}
+
+.six {
+    grid-area: six;
+}
+
+.seven {
+    grid-area: seven;
+}
+
+.eight {
+    grid-area: eight;
+}
+
+.nine {
+    grid-area: nine;
+}
+
+.zero {
+    grid-area: zero;
+}
+
+.add {
+    grid-area: add;
+}
+
+.subtract {
+    grid-area: subtract;
+}
+
+.multiply {
+    grid-area: multiply;
+}
+
+.divide {
+    grid-area: divide;
+}
+
+.equals {
+    grid-area: equals;
+    background: lightgreen;
+}
+
+.equals:hover {
+    background: rgb(70, 238, 70) !important;
+}
+
+.decimal {
+    grid-area: decimal;
+}
+
+.symbol {
+    background: rgb(250, 66, 66) ;
+    opacity: 1;
+    text-shadow: 0 1px black;
+    color: lightgray;
+}
+
+.symbol:hover{
+    background: red !important;
+}
