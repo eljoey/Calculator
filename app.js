@@ -26,17 +26,23 @@ function input(number) {
         resetValues();
         hitEquals = false;
     }    
-
-    // Change ifstatement to add '.' if hasdecimal === true. make hasdecimal and update rest of function to be cleaner addition of numbers.
-    if(number==='.' && checkDecimalValid()) return;
-    bottomDisplay = bottomDisplay +number;
-    inputNumber =  Number(bottomDisplay);
-    display();
+    if(number==='.' && checkDecimalValid()) {
+        return;
+    } else {
+        bottomDisplay = bottomDisplay +number;
+        inputNumber =  Number(bottomDisplay);
+        display(bottomDisplay, topDisplay);
+    }
+    
 }
 
-function display() {    
-    calcDisplayBottom.textContent = bottomDisplay;
-    calcDisplayTop.textContent = topDisplay;
+function display(bottom, top) {    
+    bottomDisplay = bottom;
+    topDisplay = top;
+
+    calcDisplayBottom.textContent = bottom;
+    calcDisplayTop.textContent = top;
+
     checkLength();
 }
 
@@ -53,6 +59,7 @@ function checkDecimalValid() {
 
 function checkOperatorPresent() {
     let operatorCheck = topDisplay.charAt((topDisplay.length-1));
+
     if (operatorCheck === '+' && bottomDisplay === '') {
         return true;
     } else if (operatorCheck === '-' && bottomDisplay === '') {
@@ -67,15 +74,15 @@ function checkOperatorPresent() {
 }
 
 function operate(operator) {
-    doLastOperation();
+    if(!hitEquals) {
+        doLastOperation();
+    }
     hitEquals = false;
 
-    if(checkOperatorPresent()) return;
-    topDisplay = value + ' ' + operator;
-    bottomDisplay = '';
-    inputNumber= '';
-    display();   
-    
+    if(!checkOperatorPresent()){
+        display('', value + ' ' + operator);   
+    }
+        
     lastOperator = operator;  
 }
 
@@ -96,27 +103,18 @@ function doLastOperation () {
 
 function solution () {
     doLastOperation();
-    topDisplay = value + '';
-    bottomDisplay = '';
-    hitEquals = true;
-
-    
-    display();
+    hitEquals = true;    
+    display('', value + '');
 }
 
 function resetValues() {
-    topDisplay = '';
-    bottomDisplay = '';
     value = 0;
-    inputNumber = 0;
     lastOperator = '';
-    display();
+    display('', '');
 }
 
 function deleteLastNumber () {
     let newDisplay = bottomDisplay.slice(0, -1);
-    bottomDisplay = newDisplay;
     inputNumber = newDisplay;
-    display();
-    
+    display(newDisplay, topDisplay);    
 }
