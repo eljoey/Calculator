@@ -6,6 +6,7 @@ const calcDisplayBottom = document.querySelector('.display-bottom');
 const calcDisplayTop = document.querySelector('.display-top');
 const backspace = document.querySelector('.delete');
 
+window.addEventListener('keydown', () => keyboardPress(event.key));
 numBtns.forEach((number) => number.addEventListener('click', () => input(number.getAttribute('value'))));
 operators.forEach((operator) => operator.addEventListener('click', () => operate(operator.getAttribute('value'))));
 equals.addEventListener('click', solution);
@@ -32,8 +33,7 @@ function input(number) {
         bottomDisplay = bottomDisplay +number;
         inputNumber =  Number(bottomDisplay);
         display(bottomDisplay, topDisplay);
-    }
-    
+    }    
 }
 
 function display(bottom, top) {    
@@ -79,15 +79,14 @@ function operate(operator) {
     }
     hitEquals = false;
 
-    if(!checkOperatorPresent()){
+    if(!checkOperatorPresent()) {
         display('', value + ' ' + operator);   
     }
         
     lastOperator = operator;  
 }
 
-function doLastOperation () {
-    
+function doLastOperation() {    
     if (lastOperator === '+') {
         value += Number(inputNumber);
     } else if (lastOperator === '-') {
@@ -101,7 +100,7 @@ function doLastOperation () {
     }
 }
 
-function solution () {
+function solution() {
     doLastOperation();
     hitEquals = true;    
     display('', value + '');
@@ -113,8 +112,20 @@ function resetValues() {
     display('', '');
 }
 
-function deleteLastNumber () {
+function deleteLastNumber() {
     let newDisplay = bottomDisplay.slice(0, -1);
     inputNumber = newDisplay;
     display(newDisplay, topDisplay);    
+}
+
+function keyboardPress(event) {
+    if ((event >= 0 && event <= 9) || event === '.') {
+        input(event);
+    } else if (event === '+' || event === '-' || event === '*' || event === '/') {
+        operate(event);
+    } else if (event === 'Enter') {
+        solution();
+    } else if (event === 'Backspace') {
+        deleteLastNumber();
+    }
 }
