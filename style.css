@@ -29,10 +29,13 @@ body {
     border: 1px solid black;
 }
 
+.display-top {
+    font-size: 3vh;
+}
+
 .display-bottom {
-    font-size: 2vw;
+    font-size: 4vh;
     overflow: hidden;
-    direction: rtl;
     text-overflow: ellipsis;
 }
 
