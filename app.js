@@ -7,8 +7,14 @@ const calcDisplayTop = document.querySelector('.display-top');
 const backspace = document.querySelector('.delete');
 
 window.addEventListener('keydown', () => keyboardPress(event.key));
-numBtns.forEach((number) => number.addEventListener('click', () => input(number.getAttribute('value'))));
-operators.forEach((operator) => operator.addEventListener('click', () => operate(operator.getAttribute('value'))));
+numBtns.forEach(number =>
+  number.addEventListener('click', () => input(number.getAttribute('value')))
+);
+operators.forEach(operator =>
+  operator.addEventListener('click', () =>
+    operate(operator.getAttribute('value'))
+  )
+);
 equals.addEventListener('click', solution);
 clear.addEventListener('click', resetValues);
 backspace.addEventListener('click', deleteLastNumber);
@@ -21,111 +27,110 @@ let value = 0;
 let lastOperator = '';
 let hitEquals = false;
 
-
 function input(number) {
-    if(hitEquals) {
-        resetValues();
-        hitEquals = false;
-    }    
-    if(number==='.' && checkDecimalValid()) {
-        return;
-    } else {
-        bottomDisplay = bottomDisplay +number;
-        inputNumber =  Number(bottomDisplay);
-        display(bottomDisplay, topDisplay);
-    }    
+  if (hitEquals) {
+    resetValues();
+    hitEquals = false;
+  }
+  if (number === '.' && checkDecimalPresent()) {
+    return;
+  } else {
+    bottomDisplay = bottomDisplay + number;
+    inputNumber = Number(bottomDisplay);
+    display(bottomDisplay, topDisplay);
+  }
 }
 
-function display(bottom, top) {    
-    bottomDisplay = bottom;
-    topDisplay = top;
+function display(bottom, top) {
+  bottomDisplay = bottom;
+  topDisplay = top;
 
-    calcDisplayBottom.textContent = bottom;
-    calcDisplayTop.textContent = top;
+  calcDisplayBottom.textContent = bottom;
+  calcDisplayTop.textContent = top;
 
-    checkLength();
+  checkLength();
 }
 
 function checkLength() {
-    if (bottomDisplay.length > 12) {
-        calcDisplayBottom.setAttribute('style', 'direction: rtl');
-    }
+  if (bottomDisplay.length > 12) {
+    calcDisplayBottom.setAttribute('style', 'direction: rtl');
+  }
 }
 
-function checkDecimalValid() {
-    const check = bottomDisplay.split('.').length;
-    return (check > 1);
+function checkDecimalPresent() {
+  const check = bottomDisplay.split('.').length;
+  return check > 1;
 }
 
 function checkOperatorPresent() {
-    let operatorCheck = topDisplay.charAt((topDisplay.length-1));
+  let operatorCheck = topDisplay.charAt(topDisplay.length - 1);
 
-    if (operatorCheck === '+' && bottomDisplay === '') {
-        return true;
-    } else if (operatorCheck === '-' && bottomDisplay === '') {
-        return true;
-    } else if (operatorCheck === '*' && bottomDisplay === '') {
-        return true;
-    } else if (operatorCheck === '/' && bottomDisplay === '') {
-        return true;
-    } else {
-        return false;
-    }
+  if (operatorCheck === '+' && bottomDisplay === '') {
+    return true;
+  } else if (operatorCheck === '-' && bottomDisplay === '') {
+    return true;
+  } else if (operatorCheck === '*' && bottomDisplay === '') {
+    return true;
+  } else if (operatorCheck === '/' && bottomDisplay === '') {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 function operate(operator) {
-    if(!hitEquals) {
-        doLastOperation();
-    }
-    hitEquals = false;
+  if (!hitEquals) {
+    doLastOperation();
+  }
+  hitEquals = false;
 
-    if(!checkOperatorPresent()) {
-        display('', value + ' ' + operator);   
-    }
-        
-    lastOperator = operator;  
+  if (!checkOperatorPresent()) {
+    display('', `${value}` + `${operator}`);
+  }
+
+  lastOperator = operator;
 }
 
-function doLastOperation() {    
-    if (lastOperator === '+') {
-        value += Number(inputNumber);
-    } else if (lastOperator === '-') {
-        value -= Number(inputNumber);
-    } else if (lastOperator === '*') {
-        value *= Number(inputNumber);
-    } else if (lastOperator === '/') {
-        value /= Number(inputNumber);
-    } else {
-        value = Number(inputNumber);
-    }
+function doLastOperation() {
+  if (lastOperator === '+') {
+    value += Number(inputNumber);
+  } else if (lastOperator === '-') {
+    value -= Number(inputNumber);
+  } else if (lastOperator === '*') {
+    value *= Number(inputNumber);
+  } else if (lastOperator === '/') {
+    value /= Number(inputNumber);
+  } else {
+    value = Number(inputNumber);
+  }
 }
 
 function solution() {
-    doLastOperation();
-    hitEquals = true;    
-    display('', value + '');
+  doLastOperation();
+  hitEquals = true;
+  display('', `${value}`);
 }
 
 function resetValues() {
-    value = 0;
-    lastOperator = '';
-    display('', '');
+  value = 0;
+  lastOperator = '';
+  display('', '');
 }
 
 function deleteLastNumber() {
-    let newDisplay = bottomDisplay.slice(0, -1);
-    inputNumber = newDisplay;
-    display(newDisplay, topDisplay);    
+  let newDisplay = bottomDisplay.slice(0, -1);
+  inputNumber = newDisplay;
+  display(newDisplay, topDisplay);
 }
 
 function keyboardPress(event) {
-    if ((event >= 0 && event <= 9) || event === '.') {
-        input(event);
-    } else if (event === '+' || event === '-' || event === '*' || event === '/') {
-        operate(event);
-    } else if (event === 'Enter') {
-        solution();
-    } else if (event === 'Backspace') {
-        deleteLastNumber();
-    }
+  if ((event >= 0 && event <= 9) || event === '.') {
+    input(event);
+  } else if (event === '+' || event === '-' || event === '*' || event === '/') {
+    operate(event);
+  } else if (event === 'Enter') {
+    solution();
+  } else if (event === 'Backspace') {
+    deleteLastNumber();
+  }
 }
